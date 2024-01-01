@@ -17,9 +17,9 @@ public class URLMapping {
     @NotNull
     @Size(min = 1, max = 40)
     @Column(length = 40)
-    private String shortUrl;
+    private String urlHash;
 
-    // set length to 2024 although this may need extending
+    // set length to 2048 although this may need extending
     // max URL length is potentially unbounded based on the specifications so
     // we may need to resort to a CLOB type in reality here but for initial MVP we
     // stick to a 2048 limit
@@ -32,12 +32,12 @@ public class URLMapping {
     @Min(0)
     private long numericId;
 
-    public String getShortUrl() {
-        return shortUrl;
+    public String getUrlHash() {
+        return urlHash;
     }
 
-    public void setShortUrl(String shortUrl) {
-        this.shortUrl = shortUrl;
+    public void setUrlHash(String urlHash) {
+        this.urlHash = urlHash;
     }
 
     public String getLongUrl() {
@@ -61,12 +61,11 @@ public class URLMapping {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         URLMapping that = (URLMapping) o;
-        return numericId == that.numericId && Objects.equals(shortUrl, that.shortUrl) && Objects.equals(longUrl, that.longUrl);
+        return numericId == that.numericId && Objects.equals(urlHash, that.urlHash) && Objects.equals(longUrl, that.longUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(shortUrl, longUrl, numericId);
+        return Objects.hash(urlHash, longUrl, numericId);
     }
 }
-

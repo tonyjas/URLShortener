@@ -44,7 +44,11 @@ public class URLMappingResource {
 
         // validate input!
         urlMapping = urlMappingService.create(urlMapping);
-        URI createdURI = uriInfo.getAbsolutePathBuilder().path(urlMapping.getShortUrl()).build();
+        URI createdURI = getURIFromHash(urlMapping.getUrlHash());
         return Response.created(createdURI).entity(urlMapping).build();
+    }
+
+    protected URI getURIFromHash(String hash) {
+        return uriInfo.getAbsolutePathBuilder().path(hash).build();
     }
 }

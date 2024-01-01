@@ -21,7 +21,7 @@ public class URLMappingService {
     URLGenerator generator;
 
     @PostConstruct
-    public void init() {
+    protected void init() {
         Long startValue = max();
         generator.setStartValue(startValue == null ? 0L : startValue);
     }
@@ -35,15 +35,14 @@ public class URLMappingService {
     @Transactional(Transactional.TxType.REQUIRED)
     public URLMapping create(URLMapping mapping) {
         URLMappingDto dto = generator.encodeNext();
-        mapping.setShortUrl(dto.uniqueId());
+        mapping.setUrlHash(dto.uniqueId());
         mapping.setNumericId(dto.counterValue());
         em.persist(mapping);
         return mapping;
     }
 
-
     @Transactional(Transactional.TxType.SUPPORTS)
-    public Long max() {
+    private Long max() {
         Query query = em.createQuery("SELECT MAX(m.numericId) FROM URLMapping m");
         return (Long)query.getSingleResult();
     }
