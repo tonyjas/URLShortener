@@ -2,11 +2,11 @@ package com.jasynewycz.urlmappingapi;
 
 import com.jasynewycz.urlmapping.service.URLMapping;
 import com.jasynewycz.urlmapping.service.URLMappingService;
+import com.jasynewycz.urlmappingapi.utils.URLValidator;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
-
 import java.net.URI;
 
 @Path("/mapping")
@@ -31,6 +31,10 @@ public class URLMappingResourceImpl implements URLMappingResource {
     }
 
     public Response createMapping(String longUrl) {
+
+        if(!URLValidator.validateURL(longUrl)) {
+            return Response.status(400, "Bad URL provided, cannot generate shortened URL").build();
+        }
 
         URLMapping urlMapping = new URLMapping();
         urlMapping.setLongUrl(longUrl);

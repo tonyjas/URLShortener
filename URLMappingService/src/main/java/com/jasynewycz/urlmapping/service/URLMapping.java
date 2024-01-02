@@ -13,19 +13,26 @@ import java.util.Objects;
 public class URLMapping {
 
 
+    public static final int MIN_HASH_LENGTH = 6;
+    public static final int MIN_LONG_URL_LENGTH = 8;
+    public static final int MAX_HASH_LENGTH = 40;
+    /* set length to 2048 although this may need extending
+     * max URL length is potentially unbounded based on the specifications so
+     * we may need to resort to a CLOB type in reality here but for initial MVP we
+     * stick to a 2048 limit
+     */
+    public static final int MAX_LONG_URL_LENGTH = 2048;
+
+
     @Id
     @NotNull
-    @Size(min = 1, max = 40)
-    @Column(length = 40)
+    @Size(min = MIN_HASH_LENGTH, max = MAX_HASH_LENGTH)
+    @Column(length = MAX_HASH_LENGTH)
     private String urlHash;
 
-    // set length to 2048 although this may need extending
-    // max URL length is potentially unbounded based on the specifications so
-    // we may need to resort to a CLOB type in reality here but for initial MVP we
-    // stick to a 2048 limit
     @NotNull
-    @Size(min = 1, max = 2048)
-    @Column(length = 2048)
+    @Size(min = MIN_LONG_URL_LENGTH, max = MAX_LONG_URL_LENGTH)
+    @Column(length = MAX_LONG_URL_LENGTH)
     private String longUrl;
 
     @NotNull
