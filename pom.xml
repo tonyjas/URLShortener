@@ -13,6 +13,7 @@
         <module>URLMappingAPI</module>
         <module>URLMappingService</module>
         <module>URLRedirectServlet</module>
+        <module>URLMappingAutomation</module>
     </modules>
 
     <properties>
