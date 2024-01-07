@@ -8,6 +8,12 @@ import jakarta.validation.constraints.Size;
 
 import java.util.Objects;
 
+/**
+ * Entity bean for the "MAPPINGS" table. Initial implementation uses a regular datasource provided via a wildfly
+ * datasource (POSTGRESQL) in my test environments case. urlHash should be the Primary Key of the table however
+ * numericId should also have an index as we use this to calculate at startup what the last used value was to
+ * initialize our counter.
+ */
 @Entity
 @Table(name = "MAPPINGS")
 public class URLMapping {
@@ -16,10 +22,12 @@ public class URLMapping {
     public static final int MIN_HASH_LENGTH = 6;
     public static final int MIN_LONG_URL_LENGTH = 8;
     public static final int MAX_HASH_LENGTH = 40;
-    /* set length to 2048 although this may need extending
-     * max URL length is potentially unbounded based on the specifications so
+
+    /**
+     * Sets the max long URL length to 2048 although this may need extending.
+     * Max URL length is potentially unbounded based on the specifications so
      * we may need to resort to a CLOB type in reality here but for initial MVP we
-     * stick to a 2048 limit
+     * stick to a 2048 limit.
      */
     public static final int MAX_LONG_URL_LENGTH = 2048;
 

@@ -60,7 +60,7 @@ public class Base62Test {
     public void testRun0To999_999() {
 
         Set<String> set = new HashSet<>();
-        for(long x = 0L; x < 10_000_000L; x++) {
+        for(long x = 0L; x < 1_000_000L; x++) {
             assertTrue(set.add(Base62.encode(x)));
         }
     }

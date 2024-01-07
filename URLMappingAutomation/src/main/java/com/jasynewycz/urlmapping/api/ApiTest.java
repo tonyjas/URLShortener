@@ -1,11 +1,18 @@
 package com.jasynewycz.urlmapping.api;
 
 import io.restassured.RestAssured;
-
-import static io.restassured.RestAssured.*;
 import org.hamcrest.core.IsEqual;
 
-public class TestRestAssured {
+
+/**
+ * End to end test of the REST end point.
+ * Expects by default to have the service running at:
+ * http://127.0.0.1:8081
+ * If not then this needs passing in as the first argument. The code will append:
+ * /urlmap/api/v1
+ * TODO - Note this is incomplete, many more test cases should be added here.
+ */
+public class ApiTest {
 
     public static final String DEFAULT_BASE_URL = "http://127.0.0.1:8081/urlmap/api/v1";
 
@@ -14,7 +21,7 @@ public class TestRestAssured {
         RestAssured.baseURI = DEFAULT_BASE_URL;
 
         if(args.length > 0) {
-            RestAssured.baseURI = args[0];
+            RestAssured.baseURI = args[0] + "/urlmap/api/v1";
         }
 
         String testUrl1 = "https://www.bbc.co.uk/news/live/world-europe-67439603";

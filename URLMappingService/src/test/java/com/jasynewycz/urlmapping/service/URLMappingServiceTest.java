@@ -13,6 +13,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
+/**
+ * Basic happy path tests
+ * TODO - add failure cases
+ */
 @ExtendWith(MockitoExtension.class)
 public class URLMappingServiceTest {
 

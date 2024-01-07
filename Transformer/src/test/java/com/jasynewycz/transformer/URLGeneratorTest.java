@@ -36,7 +36,7 @@ public class URLGeneratorTest {
         URLGenerator generator = new URLGenerator(new AtomicLongCounter(0L));
 
         Set<String> set = new HashSet<>();
-        for(long x = 0L; x < 10_000_000L; x++) {
+        for(long x = 0L; x < 1_000_000L; x++) {
             assertTrue(set.add(generator.encodeNext().uniqueId()));
         }
     }

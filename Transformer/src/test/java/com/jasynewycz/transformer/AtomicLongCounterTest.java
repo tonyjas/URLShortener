@@ -9,7 +9,7 @@ public class AtomicLongCounterTest {
 
 
     @Test
-    public void testSimpleIncrememnt() {
+    public void testSimpleIncrement() {
 
         AtomicLongCounter c = new AtomicLongCounter(0);
         assertEquals(1, c.getNext());

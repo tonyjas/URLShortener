@@ -9,7 +9,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 /**
- * We perform a redirect here rather than a forward so the end user gets the "real" long URL
+ * We perform a redirect (302) here rather than a forward so the end user gets the "real" long URL
  * in their browser. This will help limit the hits on our service in theory if a user
  * favorites this link after opening etc...
  */
@@ -17,6 +17,9 @@ import jakarta.servlet.annotation.*;
         @WebInitParam(name="resolve-against-context-root", value="true")
 })
 public class RedirectServlet extends HttpServlet {
+
+    private static final String RESPONSE_CONTENT_TYPE = "text/html";
+    private static final String ERROR_NO_MAPPING_FOUND = "No mapping exists for provided URL: ";
 
     @Inject
     URLMappingService urlMappingService;
@@ -27,23 +30,24 @@ public class RedirectServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
+        response.setContentType(RESPONSE_CONTENT_TYPE);
 
-        int lastIndexOfSlash = request.getRequestURL().lastIndexOf("/");
-        String shortUrl = request.getRequestURL().substring(lastIndexOfSlash+1);
+        String urlHash = extractUrlHash(request);
+        URLMapping mapping = urlMappingService.find(urlHash);
 
-        URLMapping mapping = urlMappingService.find(shortUrl);
         if(mapping == null) {
 
-            response.sendError(404, "No mapping exists for provided URL: " + request.getRequestURL());
+            response.sendError(404, ERROR_NO_MAPPING_FOUND + request.getRequestURL());
             return;
         }
 
-        // TODO issue something to state this URL has been used at this time stamp do enable analytics
-        // and potentially purging of "dead" links.
-
-        // redirect to long URL
+        // temp redirect (302) to long URL
         response.sendRedirect(mapping.getLongUrl());
+    }
+
+    private static String extractUrlHash(HttpServletRequest request) {
+        int lastIndexOfSlash = request.getRequestURL().lastIndexOf("/");
+        return request.getRequestURL().substring(lastIndexOfSlash+1);
     }
 
     @Override
